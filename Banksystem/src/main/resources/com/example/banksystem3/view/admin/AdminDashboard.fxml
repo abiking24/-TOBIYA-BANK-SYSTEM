@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.banksystem3.client.controller.admin.AdminDashboardController"            
+            style="-fx-background-color: #ecf0f1;" stylesheets="@../../styles/dashboard.css">
+    <!-- Top Header -->
+    <top>
+        <HBox style="-fx-background-color: #2c3e50; -fx-padding: 15;" alignment="CENTER">
+            <!-- Logo and Title -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="🏦" style="-fx-font-size: 28px;"/>
+                <VBox spacing="2">
+                    <Label text="Bank Management System"
+                           style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+                    <Label text="Administrator Panel"
+                           style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;"/>
+                </VBox>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- User Info -->
+            <HBox alignment="CENTER_RIGHT" spacing="15">
+                <Label text="👨‍💼 Admin User"
+                       style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="🚪 Logout" onAction="#handleLogout"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;
+                               -fx-padding: 8 15; -fx-border-radius: 5;"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- Left Navigation Menu -->
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #34495e; -fx-padding: 20; -fx-pref-width: 220;">
+
+            <Label text="MAIN MENU"
+                   style="-fx-text-fill: #ecf0f1; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 0 0 10 0;"/>
+
+            <!-- Dashboard -->
+            <Button text="📊 Dashboard" onAction="#handleDashboard"
+                    styleClass="sidebar-button" style="-fx-background-color: #3498db;"/>
+
+            <!-- User Management -->
+            <Label text="USER MANAGEMENT"
+                   style="-fx-text-fill: #95a5a6; -fx-font-size: 12px; -fx-padding: 15 0 5 0;"/>
+
+            <Button text="➕ Register User" onAction="#handleRegisterUser"
+                    styleClass="sidebar-button"/>
+
+            <Button text="👥 Manage Customers" onAction="#handleManageCustomers"
+                    styleClass="sidebar-button"/>
+
+            <!-- Account Management -->
+            <Label text="ACCOUNT MANAGEMENT"
+                   style="-fx-text-fill: #95a5a6; -fx-font-size: 12px; -fx-padding: 15 0 5 0;"/>
+
+            <Button text="🏦 Manage Accounts" onAction="#handleManageAccounts"
+                    styleClass="sidebar-button"/>
+
+            <!-- Reports -->
+            <Label text="REPORTS"
+                   style="-fx-text-fill: #95a5a6; -fx-font-size: 12px; -fx-padding: 15 0 5 0;"/>
+
+            <Button text="📜 View Logs" onAction="#handleViewLogs" styleClass="sidebar-button"/>
+            <Button text="📊 Generate Reports" onAction="#handleReports" styleClass="sidebar-button"/>
+            <Button text="⚙️ System Settings" onAction="#handleSettings" styleClass="sidebar-button"/>
+
+            <!-- Spacer -->
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Quick Stats -->
+            <VBox spacing="5" style="-fx-background-color: rgba(0,0,0,0.2); -fx-padding: 10; -fx-border-radius: 5;">
+                <Label text="Quick Stats" style="-fx-text-fill: #ecf0f1; -fx-font-weight: bold;"/>
+                <HBox>
+                    <Label text="Users:" style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="25" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+                <HBox>
+                    <Label text="Accounts:" style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="42" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <StackPane fx:id="contentPane"
+                   style="-fx-background-color: #f5f7fa; -fx-padding: 25;">
+            <!-- Welcome Message -->
+            <VBox alignment="CENTER" spacing="20">
+                <Label fx:id="welcomeLabel"
+                       text="👋 Welcome, Administrator!"
+                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                <Label text="Manage your bank operations efficiently"
+                       style="-fx-font-size: 18px; -fx-text-fill: #7f8c8d;"/>
+
+                <!-- Quick Actions -->
+                <HBox spacing="20" alignment="CENTER">
+                    <VBox alignment="CENTER" spacing="10"
+                          style="-fx-background-color: white; -fx-padding: 20; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
+                        <Label text="➕" style="-fx-font-size: 40px;"/>
+                        <Label text="Register User" style="-fx-font-weight: bold;"/>
+                        <Button text="Go" onAction="#handleRegisterUser"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                    </VBox>
+
+                    <VBox alignment="CENTER" spacing="10"
+                          style="-fx-background-color: white; -fx-padding: 20; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
+                        <Label text="🏦" style="-fx-font-size: 40px;"/>
+                        <Label text="Manage Accounts" style="-fx-font-weight: bold;"/>
+                        <Button text="Go" onAction="#handleManageAccounts"
+                                style="-fx-background-color: #2ecc71; -fx-text-fill: white;"/>
+                    </VBox>
+
+                    <VBox alignment="CENTER" spacing="10"
+                          style="-fx-background-color: white; -fx-padding: 20; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
+                        <Label text="📈" style="-fx-font-size: 40px;"/>
+                        <Label text="View Reports" style="-fx-font-weight: bold;"/>
+                        <Button text="Go" onAction="#handleReports"
+                                style="-fx-background-color: #f39c12; -fx-text-fill: white;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- System Status -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-border-radius: 10; -fx-pref-width: 500;">
+                    <Label text="System Status" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+                    <HBox>
+                        <Label text="Last Login:" style="-fx-text-fill: #7f8c8d;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label text="Today, 09:30 AM" style="-fx-font-weight: bold;"/>
+                    </HBox>
+                    <HBox>
+                        <Label text="Active Users:" style="-fx-text-fill: #7f8c8d;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label text="8" style="-fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox style="-fx-background-color: #2c3e50; -fx-padding: 10;" alignment="CENTER">
+            <Label text="© 2024 Bank Management System v1.0 | Status: ✅ Online | Users: 25 | Accounts: 42"
+                   style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
