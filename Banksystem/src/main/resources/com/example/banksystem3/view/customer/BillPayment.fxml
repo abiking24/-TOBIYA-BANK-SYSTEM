@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="20" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.banksystem3.client.controller.customer.BillPaymentController">
+
+    <Text style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #2c3e50;" text="🧾 Pay Bills" />
+
+    <GridPane hgap="15" vgap="15">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+
+        <Label text="Pay From:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="accountCombo" maxWidth="Infinity" promptText="Select Account" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+        <Label text="Biller:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="billerCombo" maxWidth="Infinity" promptText="Select Service Provider" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+        <Label text="Reference No:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="referenceField" promptText="Bill Number / Phone Number" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+        <Label text="Amount (ETB):" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="amountField" promptText="0.00" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+        <Label fx:id="referenceLabel" text="" GridPane.rowIndex="4" GridPane.columnIndex="1" style="-fx-text-fill: #7f8c8d;"/>
+
+        <HBox spacing="15" alignment="CENTER_RIGHT" GridPane.rowIndex="5" GridPane.columnIndex="1">
+            <Button text="Pay Bill" onAction="#handlePayBill" style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;" />
+        </HBox>
+
+    </GridPane>
+
+</VBox>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="20" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.banksystem3.client.controller.customer.TransferController">
+
+    <Text style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #2c3e50;" text="💸 Transfer Funds" />
+
+    <GridPane hgap="15" vgap="15">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+
+        <Label text="From Account:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <ComboBox fx:id="fromAccountCombo" maxWidth="Infinity" promptText="Select Source Account" />
+            <Label fx:id="currentBalanceLabel" text="Balance: --" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+        </VBox>
+
+        <Label text="Transfer Type:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="transferTypeCombo" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+        <Label text="To Account No:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
+            <TextField fx:id="toAccountField" promptText="Recipient Account Number" HBox.hgrow="ALWAYS" />
+            <Button text="Verify" onAction="#handleVerifyRecipient" />
+        </HBox>
+        <Label fx:id="recipientNameLabel" text="" style="-fx-text-fill: #27ae60; -fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Amount (ETB):" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="amountField" promptText="0.00" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+        <Label text="Description:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <TextArea fx:id="descriptionField" prefRowCount="3" promptText="Reason for transfer (optional)" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+        <HBox spacing="15" alignment="CENTER_RIGHT" GridPane.rowIndex="6" GridPane.columnIndex="1">
+            <Button text="Clear" onAction="#handleClear" style="-fx-background-color: #95a5a6; -fx-text-fill: white;" />
+            <Button fx:id="transferButton" text="Confirm Transfer" onAction="#handleTransfer" disable="true" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;" />
+        </HBox>
+
+    </GridPane>
+
+</VBox>

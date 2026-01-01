@@ -1,0 +1,70 @@
+/* Save this in src/resources/styles.css */
+
+.root {
+    -fx-font-family: "Arial";
+}
+
+.chart {
+    -fx-padding: 10px;
+}
+
+.chart-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0056B3;
+}
+
+.axis-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #333333;
+    -fx-font-size: 11px;
+}
+
+.chart-pie-label {
+    -fx-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+/* Bar chart styling */
+.default-color0.chart-bar {
+    -fx-bar-fill: #0056B3;
+}
+
+.default-color1.chart-bar {
+    -fx-bar-fill: #28A745;
+}
+
+.default-color2.chart-bar {
+    -fx-bar-fill: #FF6B35;
+}
+
+/* Pie chart styling */
+.data0.chart-pie { -fx-pie-color: #0056B3; }
+.data1.chart-pie { -fx-pie-color: #28A745; }
+.data2.chart-pie { -fx-pie-color: #FF6B35; }
+.data3.chart-pie { -fx-pie-color: #6A4C93; }
+.data4.chart-pie { -fx-pie-color: #6C757D; }
+
+/* Line chart styling */
+.default-color0.chart-series-line { -fx-stroke: #0056B3; }
+.default-color1.chart-series-line { -fx-stroke: #28A745; }
+.default-color2.chart-series-line { -fx-stroke: #FF6B35; }
+
+.default-color0.chart-line-symbol { -fx-background-color: #0056B3, white; }
+.default-color1.chart-line-symbol { -fx-background-color: #28A745, white; }
+.default-color2.chart-line-symbol { -fx-background-color: #FF6B35, white; }
