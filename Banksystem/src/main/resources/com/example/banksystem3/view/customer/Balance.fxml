@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.banksystem3.client.controller.customer.BalanceController">
+    
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Text style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #2c3e50;" text="My Accounts" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button onAction="#handleRefresh" text="🔄 Refresh" style="-fx-background-color: #3498db; -fx-text-fill: white;" />
+    </HBox>
+
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+        <VBox fx:id="accountsContainer" spacing="15" style="-fx-padding: 10;">
+            <!-- Account cards will be added here dynamically -->
+        </VBox>
+    </ScrollPane>
+
+</VBox>

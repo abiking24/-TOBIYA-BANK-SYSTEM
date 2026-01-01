@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETB Exchange Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Debug: Check if Chart.js is loaded
+        console.log('Chart.js loaded:', typeof Chart !== 'undefined' ? 'Yes' : 'No');
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js failed to load!');
+        } else {
+            console.log('Chart.js version:', Chart.version);
+        }
+    </script>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #3182ce;
+            --success: #38a169;
+            --danger: #e53e3e;
+            --warning: #d69e2e;
+            --light: #f7fafc;
+            --dark: #1a202c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px 20px 0 0;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo {
+            background: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .title-section h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .title-section p {
+            color: #a0aec0;
+            font-size: 14px;
+        }
+        
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(56, 161, 105, 0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(56, 161, 105, 0.3);
+        }
+        
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .chart-section, .currencies-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .currency-pair {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 32px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .current-rate {
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin: 30px 0;
+            position: relative;
+            background-color: rgba(255, 0, 0, 0.05); /* Debug background */
+            border: 1px dashed rgba(255, 0, 0, 0.3); /* Debug border */
+        }
+        
+        .chart-container canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #a0aec0;
+        }
+        
+        .currencies-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .currency-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .currency-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .currency-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .currency-flag {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .currency-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .currency-code {
+            font-weight: 600;
+            color: white;
+        }
+        
+        .currency-name {
+            font-size: 12px;
+            color: #a0aec0;
+        }
+        
+        .currency-rate {
+            font-weight: 600;
+            color: white;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .primary-btn {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo">ETB</div>
+                <div class="title-section">
+                    <h1>ETB Exchange Dashboard</h1>
+                    <p>Live Exchange Rates</p>
+                </div>
+            </div>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>LIVE</span>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="chart-section">
+                <div class="chart-header">
+                    <div class="currency-pair">ETB / <span id="targetCurrency">USD</span></div>
+                </div>
+                <div class="current-rate" id="currentRate">0.0175</div>
+                <div class="chart-container">
+                    <canvas id="exchangeChart"></canvas>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="high24h">0.0182</div>
+                        <div class="stat-label">24H HIGH</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="low24h">0.0170</div>
+                        <div class="stat-label">24H LOW</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="currencies-section">
+                <h3>Major Currencies</h3>
+                <div class="currencies-list" id="currenciesList">
+                    <!-- Currencies will be added here by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div>Last updated: <span id="lastUpdated">Just now</span></div>
+            <div class="controls">
+                <button class="secondary-btn" id="pauseBtn">⏸ Pause</button>
+                <button class="primary-btn" id="refreshBtn">🔄 Refresh</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const config = {
+            baseCurrency: 'ETB',
+            apiUrl: 'https://open.er-api.com/v6/latest/ETB',
+            updateInterval: 30000, // 30 seconds
+            chartPoints: 20
+        };
+
+        // State
+        let chart = null;
+        let rates = {};
+        let isPaused = false;
+        let lastUpdate = new Date();
+        let updateInterval;
+        
+        // DOM Elements
+        const elements = {
+            currentRate: document.getElementById('currentRate'),
+            targetCurrency: document.getElementById('targetCurrency'),
+            lastUpdated: document.getElementById('lastUpdated'),
+            currenciesList: document.getElementById('currenciesList'),
+            pauseBtn: document.getElementById('pauseBtn'),
+            refreshBtn: document.getElementById('refreshBtn'),
+            high24h: document.getElementById('high24h'),
+            low24h: document.getElementById('low24h')
+        };
+
+        // Initialize the dashboard
+        async function init() {
+            await fetchRates();
+            setupEventListeners();
+            updateInterval = setInterval(fetchRates, config.updateInterval);
+        }
+
+        // Fetch exchange rates
+        async function fetchRates() {
+            if (isPaused) return;
+            
+            try {
+                const response = await fetch(config.apiUrl);
+                const data = await response.json();
+                
+                if (data.result === 'success') {
+                    rates = data.rates;
+                    lastUpdate = new Date();
+                    updateUI();
+                    updateChart();
+                }
+            } catch (error) {
+                console.error('Error fetching rates:', error);
+                // Fallback to sample data
+                rates = {
+                    USD: 0.0175,
+                    EUR: 0.016,
+                    GBP: 0.014,
+                    JPY: 2.5,
+                    CNY: 0.12,
+                    AED: 0.064,
+                    SAR: 0.066
+                };
+                updateUI();
+                updateChart();
+            }
+        }
+
+        // Update the UI with current rates
+        function updateUI() {
+            // Update last updated time
+            elements.lastUpdated.textContent = lastUpdate.toLocaleTimeString();
+            
+            // Update major currencies list
+            updateCurrenciesList();
+            
+            // Update 24h high/low (simulated)
+            elements.high24h.textContent = (rates.USD * 1.02).toFixed(6);
+            elements.low24h.textContent = (rates.USD * 0.98).toFixed(6);
+        }
+
+        // Update the currencies list
+        function updateCurrenciesList() {
+            const majorCurrencies = ['USD', 'EUR', 'GBP', 'JPY', 'CNY', 'AED', 'SAR'];
+            elements.currenciesList.innerHTML = '';
+            
+            majorCurrencies.forEach(currency => {
+                if (rates[currency]) {
+                    const item = document.createElement('div');
+                    item.className = 'currency-item';
+                    item.innerHTML = `
+                        <div class="currency-info">
+                            <div class="currency-flag">${currency === 'USD' ? '🇺🇸' : 
+                                currency === 'EUR' ? '🇪🇺' :
+                                currency === 'GBP' ? '🇬🇧' :
+                                currency === 'JPY' ? '🇯🇵' :
+                                currency === 'CNY' ? '🇨🇳' :
+                                currency === 'AED' ? '🇦🇪' : '🇸🇦'}</div>
+                            <div class="currency-details">
+                                <div class="currency-code">${currency}</div>
+                                <div class="currency-name">${getCurrencyName(currency)}</div>
+                            </div>
+                        </div>
+                        <div class="currency-rate">${rates[currency].toFixed(6)}</div>
+                    `;
+                    
+                    item.addEventListener('click', () => selectCurrency(currency));
+                    elements.currenciesList.appendChild(item);
+                }
+            });
+        }
+
+        // Get currency name
+        function getCurrencyName(code) {
+            const names = {
+                'USD': 'US Dollar',
+                'EUR': 'Euro',
+                'GBP': 'British Pound',
+                'JPY': 'Japanese Yen',
+                'CNY': 'Chinese Yuan',
+                'AED': 'UAE Dirham',
+                'SAR': 'Saudi Riyal'
+            };
+            return names[code] || code;
+        }
+
+        // Select currency to display in chart
+        function selectCurrency(currency) {
+            elements.targetCurrency.textContent = currency;
+            updateChart();
+        }
+
+        // Initialize or update the chart
+        function updateChart() {
+            console.log('updateChart called');
+            
+            // Get canvas element
+            const canvas = document.getElementById('exchangeChart');
+            if (!canvas) {
+                console.error('Canvas element not found!');
+                return;
+            }
+            
+            // Check for existing chart instance and destroy it
+            const existingChart = Chart.getChart(canvas);
+            if (existingChart) {
+                console.log('Destroying existing chart instance');
+                existingChart.destroy();
+            }
+            
+            // Get 2D context
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Could not get 2D context from canvas');
+                return;
+            }
+            
+            const selectedCurrency = elements.targetCurrency.textContent;
+            const rate = rates[selectedCurrency] || 0;
+            console.log('Selected currency:', selectedCurrency, 'Rate:', rate);
+            
+            // Update current rate display
+            elements.currentRate.textContent = rate.toFixed(6);
+            
+            // Generate time-based labels and data for the chart
+            const now = new Date();
+            const labels = [];
+            const data = [];
+            let currentValue = rate;
+            
+            // Generate data points for the last 24 hours
+            for (let i = config.chartPoints - 1; i >= 0; i--) {
+                const time = new Date(now - i * 3600000 / (config.chartPoints / 24));
+                labels.push(time.getHours() + ':' + time.getMinutes().toString().padStart(2, '0'));
+                
+                // Add realistic price movement
+                currentValue = currentValue * (0.995 + Math.random() * 0.01);
+                data.push({
+                    x: time,
+                    y: currentValue
+                });
+            }
+            
+            // Destroy existing chart if it exists
+            if (chart) {
+                chart.destroy();
+            }
+            
+            // Create new chart with time scale
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: `${config.baseCurrency}/${selectedCurrency}`,
+                        data: data,
+                        borderColor: '#3182ce',
+                        backgroundColor: 'rgba(49, 130, 206, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        borderJoinStyle: 'round',
+                        borderCapStyle: 'round'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 0 // Disable animation for better performance
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(26, 32, 44, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderWidth: 1,
+                            padding: 10,
+                            callbacks: {
+                                label: function(context) {
+                                    return `1 ${config.baseCurrency} = ${context.parsed.y.toFixed(6)} ${selectedCurrency}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'hour',
+                                displayFormats: {
+                                    hour: 'HH:mm'
+                                },
+                                tooltipFormat: 'HH:mm:ss'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: '#a0aec0',
+                                maxRotation: 0,
+                                maxTicksLimit: 6
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: '#a0aec0',
+                                callback: function(value) {
+                                    return value.toFixed(6);
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.4 // Smooth line
+                        }
+                    }
+                }
+            });
+            
+            // Update 24h high/low based on chart data
+            if (data.length > 0) {
+                const values = data.map(d => d.y);
+                elements.high24h.textContent = Math.max(...values).toFixed(6);
+                elements.low24h.textContent = Math.min(...values).toFixed(6);
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Pause/Resume button
+            elements.pauseBtn.addEventListener('click', () => {
+                isPaused = !isPaused;
+                elements.pauseBtn.textContent = isPaused ? '▶ Resume' : '⏸ Pause';
+                elements.pauseBtn.className = isPaused ? 'primary-btn' : 'secondary-btn';
+                
+                if (!isPaused) {
+                    fetchRates();
+                }
+            });
+            
+            // Refresh button
+            elements.refreshBtn.addEventListener('click', () => {
+                if (!isPaused) {
+                    fetchRates();
+                }
+            });
+            
+            // Select USD by default
+            selectCurrency('USD');
+        }
+
+        // Initialize the dashboard when the page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.BalanceController"
+      alignment="CENTER"
+      spacing="20"
+      style="-fx-padding: 40;">
+
+    <Label text="Account Balance"
+           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <VBox spacing="10" alignment="CENTER_LEFT"
+          style="-fx-background-color: white; -fx-padding: 30; -fx-border-color: #bdc3c7; -fx-border-radius: 5;">
+
+        <Label text="Account Number:"
+               style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+        <TextField fx:id="accountNumberField"
+                   promptText="Enter account number"
+                   style="-fx-pref-width: 300;"/>
+
+        <Button text="Check Balance"
+                fx:id="checkBalanceBtn"
+                onAction="#handleCheckBalance"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-pref-width: 300; -fx-padding: 10;"/>
+    </VBox>
+
+    <VBox fx:id="resultContainer"
+          visible="false"
+          spacing="10"
+          alignment="CENTER"
+          style="-fx-background-color: #f8f9fa; -fx-padding: 20; -fx-border-color: #3498db; -fx-border-radius: 5;">
+
+        <Label text="Balance Details"
+               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Label text="Account Number:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="accNumberLabel" style="-fx-text-fill: #27ae60;"/>
+        </HBox>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Label text="Account Holder:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="accHolderLabel" style="-fx-text-fill: #27ae60;"/>
+        </HBox>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Label text="Current Balance:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="balanceLabel"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+        </HBox>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Label text="Account Type:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="accountTypeLabel" style="-fx-text-fill: #27ae60;"/>
+        </HBox>
+
+        <Label fx:id="messageLabel"
+               style="-fx-text-fill: #e74c3c; -fx-font-style: italic;"/>
+    </VBox>
+
+    <Button text="Back to Dashboard"
+            onAction="#handleBack"
+            style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 10 20;"/>
+</VBox>
