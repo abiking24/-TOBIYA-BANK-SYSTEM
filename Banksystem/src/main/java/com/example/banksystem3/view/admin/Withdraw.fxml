@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.banksystem3.client.controller.admin.WithdrawController">
+    <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Withdraw Funds" />
+
+        <GridPane hgap="10.0" vgap="10.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" prefWidth="150.0" />
+                <ColumnConstraints hgrow="ALWAYS" prefWidth="300.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+            <Label text="Account Number:" GridPane.rowIndex="0" />
+            <TextField fx:id="accountNumberField" promptText="Enter account number" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <Label text="Account Holder:" GridPane.rowIndex="1" />
+            <Label fx:id="accountHolderLabel" text="Not verified" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Amount:" GridPane.rowIndex="2" />
+            <TextField fx:id="amountField" promptText="Enter amount to withdraw" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <Label text="Description (Optional):" GridPane.rowIndex="3" />
+            <TextArea fx:id="descriptionField" prefHeight="50.0" promptText="Add a description for the withdrawal" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        </GridPane>
+
+        <HBox alignment="CENTER" spacing="10.0">
+            <Button fx:id="verifyButton" onAction="#handleVerifyAccount" text="Verify Account" />
+            <Button fx:id="withdrawButton" onAction="#handleWithdraw" text="Withdraw Funds" disable="true" />
+            <Button fx:id="clearButton" onAction="#handleClear" text="Clear" />
+            <Button onAction="#handleBack" text="Back to Dashboard" />
+        </HBox>
+    </VBox>
+</AnchorPane>
