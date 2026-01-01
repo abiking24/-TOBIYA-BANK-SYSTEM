@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.banksystem3.client.controller.customer.TransferController">
+    <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Fund Transfer" />
+
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label text="From Account:" />
+            <ComboBox fx:id="fromAccountCombo" prefWidth="200.0" promptText="Select an account" />
+            <Label fx:id="currentBalanceLabel" text="Current Balance: ETB 0.00" />
+        </HBox>
+
+        <Separator />
+
+        <GridPane hgap="10.0" vgap="10.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" prefWidth="150.0" />
+                <ColumnConstraints hgrow="ALWAYS" prefWidth="300.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+            <Label text="Transfer Type:" GridPane.rowIndex="0" />
+            <ComboBox fx:id="transferTypeCombo" prefWidth="300.0" promptText="Select transfer type" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <Label text="Recipient Bank:" GridPane.rowIndex="1" />
+            <ComboBox fx:id="bankCombo" prefWidth="300.0" promptText="Select a bank" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Recipient Wallet:" GridPane.rowIndex="2" />
+            <ComboBox fx:id="walletCombo" prefWidth="300.0" promptText="Select a wallet" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <Label text="Recipient Account/Phone:" GridPane.rowIndex="3" />
+            <TextField fx:id="toAccountField" promptText="Enter recipient account/phone" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <Label text="Recipient Name:" GridPane.rowIndex="4" />
+            <Label fx:id="recipientNameLabel" text="Not verified" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <Label text="Amount:" GridPane.rowIndex="5" />
+            <TextField fx:id="amountField" promptText="Enter amount to transfer" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+            <Label text="Description (Optional):" GridPane.rowIndex="6" />
+            <TextArea fx:id="descriptionField" prefHeight="50.0" promptText="Add a description for the transfer" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        </GridPane>
+
+        <HBox alignment="CENTER" spacing="10.0">
+            <Button fx:id="verifyButton" onAction="#handleVerifyRecipient" text="Verify Recipient" />
+            <Button fx:id="transferButton" onAction="#handleTransfer" text="Transfer Funds" disable="true" />
+            <Button fx:id="clearButton" onAction="#handleClear" text="Clear" />
+            <Button onAction="#handleBack" text="Back to Dashboard" />
+        </HBox>
+    </VBox>
+</AnchorPane>
